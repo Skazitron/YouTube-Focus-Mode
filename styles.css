@@ -114,3 +114,32 @@
   font-size: 16px;
   font-weight: 500;
 }
+
+/* Global Shorts Blocker */
+/* Hide Shorts shelf (the horizontal scrolling list of shorts) */
+ytd-reel-shelf-renderer,
+ytd-rich-shelf-renderer[is-shorts] {
+    display: none !important;
+}
+
+/* Hide Shorts tab in guide/sidebar */
+ytd-guide-entry-renderer:has(a[title="Shorts"]),
+ytd-mini-guide-entry-renderer:has(a[title="Shorts"]) {
+    display: none !important;
+}
+
+/* Hide specific Shorts videos in grids/lists (using :has selector) */
+/* This targets video renderers that link to /shorts/ */
+ytd-video-renderer:has(a[href^="/shorts/"]),
+ytd-grid-video-renderer:has(a[href^="/shorts/"]),
+ytd-rich-item-renderer:has(a[href^="/shorts/"]) {
+    display: none !important;
+}
+
+/* Specifically for History Page cleanup */
+/* Sometimes history items use ytd-video-renderer, handled above. */
+/* If there are other "non-video" elements on history page (like 'posts' or 'headers' that clutter): */
+/* Hide 'Shorts' section headers if any */
+ytd-browse[page-subtype="history"] ytd-shelf-renderer:has(span#title:contains("Shorts")) { 
+    display: none !important; 
+}

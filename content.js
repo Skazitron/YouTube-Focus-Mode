@@ -69,7 +69,7 @@ function injectFocusMode() {
     // SVG Icons (Simplified paths)
     const historyIcon = '<svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M14.97,16.95L10,13.87V7h2v5.76l4.03,2.49L14.97,16.95z M12,3c-4.96,0-9,4.04-9,9s4.04,9,9,9s9-4.04,9-9S16.96,3,12,3 M12,2c5.52,0,10,4.48,10,10s-4.48,10-10,10S2,17.52,2,12S6.48,2,12,2L12,2z"></path></g></svg>';
     const playlistIcon = '<svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M22,7H2v1h20V7z M13,12H2v-1h11V12z M13,16H2v-1h11V16z M15,19v-8l7,4L15,19z"></path></g></svg>';
-    const watchLaterIcon = '<svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M14.97,16.95L10,13.87V7h2v5.76l4.03,2.49L14.97,16.95z M12,3c-4.96,0-9,4.04-9,9s4.04,9,9,9s9-4.04,9-9S16.96,3,12,3 M12,2c5.52,0,10,4.48,10,10s-4.48,10-10,10S2,17.52,2,12S6.48,2,12,2L12,2z"></path></g></svg>'; // Using History icon for simplicity or clock icon if preferred, actually let's use a clock-like one for Watch Later specifically if distinquished, but standard history clock is fine. Wait, watch later is usually a clock. History is a counter-clockwise arrow or clock. Let's use standard clock for watch later.
+    const watchLaterIcon = '<svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"></path></g></svg>';
 
     cardsContainer.appendChild(createCard('History', historyIcon, 'https://www.youtube.com/feed/history'));
     cardsContainer.appendChild(createCard('Playlists', playlistIcon, 'https://www.youtube.com/feed/playlists'));
@@ -98,8 +98,16 @@ function checkAndInject() {
         // Common selectors for the primary feed
         const primaryPage = document.querySelector('ytd-browse[page-subtype="home"]');
         if (primaryPage) primaryPage.style.display = 'none';
+        
+        // Also ensure the miniplayer didn't pop up over our overlay or something
+        // (Though z-index should handle it)
     } else {
         removeFocusMode();
+        // Ensure the primary page content is visible on non-home pages (like History)
+        // We select broadly to catch history, subscriptions, etc.
+        const pageManager = document.querySelector('ytd-page-manager');
+        if (pageManager) pageManager.style.display = '';
+        
         const primaryPage = document.querySelector('ytd-browse[page-subtype="home"]');
         if (primaryPage) primaryPage.style.display = '';
     }
@@ -110,7 +118,14 @@ checkAndInject();
 
 // Observer for SPA navigation (YouTube is a Single Page App)
 const observer = new MutationObserver(() => {
+    // We only need to check occasionally or when specific things change, 
+    // but lightweight check is okay.
     checkAndInject();
 });
 
 observer.observe(document.body, { childList: true, subtree: true });
+
+// YouTube specific navigation event
+window.addEventListener('yt-navigate-finish', () => {
+    checkAndInject();
+});
