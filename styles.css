@@ -1,0 +1,116 @@
+/* Main Overlay Container */
+.yt-focus-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--yt-spec-base-background, #fff); /* Adapt to YT theme */
+  z-index: 2147483647; /* Max z-index to cover everything including header */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Roboto", "Arial", sans-serif;
+  color: var(--yt-spec-text-primary, #0f0f0f);
+}
+
+/* Dark mode fallback if vars aren't available */
+@media (prefers-color-scheme: dark) {
+  .yt-focus-overlay {
+    background-color: #0f0f0f;
+    color: #f1f1f1;
+  }
+}
+
+/* Text Styling */
+.yt-focus-title {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+/* Search Bar */
+.yt-focus-search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  background-color: var(--yt-spec-badge-chip-background, rgba(0,0,0,0.05));
+  border: 1px solid var(--yt-spec-10-percent-layer, rgba(0,0,0,0.1));
+  border-radius: 40px;
+  padding: 0 16px;
+  margin-bottom: 40px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.yt-focus-search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 12px 8px;
+  font-size: 16px;
+  color: inherit;
+  outline: none;
+}
+
+.yt-focus-search-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.yt-focus-search-btn svg {
+  fill: var(--yt-spec-text-primary, #0f0f0f);
+}
+
+/* Cards Container */
+.yt-focus-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Individual Card */
+.yt-focus-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+  height: 120px;
+  background-color: var(--yt-spec-raised-background, #fff);
+  border: 1px solid var(--yt-spec-10-percent-layer, rgba(0,0,0,0.1));
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.yt-focus-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  background-color: var(--yt-spec-badge-chip-background, rgba(0,0,0,0.05));
+}
+
+.yt-focus-card-icon {
+  margin-bottom: 12px;
+  width: 32px;
+  height: 32px;
+}
+.yt-focus-card-icon svg {
+    fill: var(--yt-spec-text-primary, #0f0f0f);
+}
+
+.yt-focus-card-label {
+  font-size: 16px;
+  font-weight: 500;
+}
