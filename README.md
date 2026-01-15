@@ -13,7 +13,7 @@ A Chrome extension designed to help you stay focused by replacing the algorithmi
 ## Installation
 
 1. **Clone or Download** this repository to a folder on your computer.
-2. Open Google Chrome and navigate to `chrome://extensions`.
+2. Open Google Chrome and navigate to `chrome://extensions` or `edge://extensions` if you're on Edge.
 3. Toggle **Developer mode** in the top right corner.
 4. Click **Load unpacked** in the top left.
 5. Select the folder containing this extension's files (the folder with `manifest.json`).
